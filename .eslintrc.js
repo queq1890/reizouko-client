@@ -11,4 +11,7 @@ module.exports = {
     'plugin:react/recommended',
     'prettier',
   ],
+  rules: {
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+  },
 };
