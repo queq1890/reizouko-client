@@ -1,12 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NextPage } from 'next';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Index: NextPage = () => {
-  const { isLoading, isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
-  if (isLoading) return <>loading...</>;
-  if (isAuthenticated) return <>signed in</>;
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <button
