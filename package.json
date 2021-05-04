@@ -17,6 +17,7 @@
     "fix:eslint": "yarn lint:eslint --fix"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.4.0",
     "clsx": "^1.1.1",
     "eslint-plugin-react": "^7.23.2",
     "next": "^10.1.3",
