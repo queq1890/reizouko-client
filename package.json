@@ -15,8 +15,8 @@
     "fix": "run-s fix:*",
     "fix:prettier": "prettier -w .",
     "fix:eslint": "yarn lint:eslint --fix",
-    "download-schema": "apollo service:download --endpoint=http://localhost:7000/graphql graphql-schema.json",
-    "codegen": "npm run download-schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql --no-addTypename"
+    "copy-schema": "cp ../reizouko-api/schema.gql schema.graphql",
+    "codegen": "npm run copy-schema && apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --tagName=gql --no-addTypename"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.4.0",

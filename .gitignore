@@ -2,5 +2,8 @@ node_modules
 .next
 .env
 yarn-error.log
+
+# GraphQL
+schema.graphql
 __generated__/**/**/**/**/*.ts
 src/hooks/**/__generated__/
