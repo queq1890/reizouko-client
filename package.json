@@ -14,7 +14,9 @@
     "lint:eslint": "eslint ./src",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier -w .",
-    "fix:eslint": "yarn lint:eslint --fix"
+    "fix:eslint": "yarn lint:eslint --fix",
+    "download-schema": "apollo service:download --endpoint=http://localhost:7000/graphql graphql-schema.json",
+    "codegen": "npm run download-schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql --no-addTypename"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.4.0",
@@ -32,6 +34,7 @@
     "@types/react": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "apollo": "^2.33.0",
     "autoprefixer": "^10.2.5",
     "eslint": "^7.24.0",
     "eslint-config-prettier": "^8.2.0",

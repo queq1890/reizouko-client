@@ -2,3 +2,5 @@ node_modules
 .next
 .env
 yarn-error.log
+__generated__/**/**/**/**/*.ts
+src/hooks/**/__generated__/

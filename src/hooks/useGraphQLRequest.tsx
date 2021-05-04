@@ -2,9 +2,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useSWR from 'swr';
 import { graphQLClient } from '../gateway/graphQLClient';
 
-export const useGraphQLRequest = (
+export const useGraphQLRequest = <T, U = undefined>(
   query: string,
-  variables?: Record<string, unknown>
+  variables?: U
 ) => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const url = isLoading || !isAuthenticated ? null : query;
@@ -15,7 +15,11 @@ export const useGraphQLRequest = (
       authorization: `Bearer ${accessToken}`,
     };
 
-    const res = await graphQLClient.request(query, variables, requestHeaders);
+    const res = await graphQLClient.request<T>(
+      query,
+      variables,
+      requestHeaders
+    );
     return res;
   });
 
