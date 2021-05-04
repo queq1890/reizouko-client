@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import useSWR from 'swr';
 import { graphQLClient } from '../gateway/graphQLClient';
@@ -13,20 +13,23 @@ export const useGraphQLRequest = <T, U = undefined>(
     isAuthenticated,
     query,
   ]);
+  const fetcher = useCallback(
+    async (query: string) => {
+      const accessToken = await getAccessTokenSilently();
+      const requestHeaders = {
+        authorization: `Bearer ${accessToken}`,
+      };
 
-  const { data, error } = useSWR(url, async (query: string) => {
-    const accessToken = await getAccessTokenSilently();
-    const requestHeaders = {
-      authorization: `Bearer ${accessToken}`,
-    };
+      const res = await graphQLClient.request<T>(
+        query,
+        variables,
+        requestHeaders
+      );
+      return res;
+    },
+    [getAccessTokenSilently, graphQLClient]
+  );
 
-    const res = await graphQLClient.request<T>(
-      query,
-      variables,
-      requestHeaders
-    );
-    return res;
-  });
-
+  const { data, error } = useSWR(url, fetcher);
   return { data, error };
 };
