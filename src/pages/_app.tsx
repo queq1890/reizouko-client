@@ -8,7 +8,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <Auth0Provider
       domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN}
       clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID}
-      redirectUri={process.env.NEXT_PUBLIC_AUTH0_REDIRECT_URI}
+      redirectUri={`${process.env.NEXT_PUBLIC_REIZOUKO_CLIENT_URL}/callback`}
       audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE}
     >
       <Component {...pageProps} />
