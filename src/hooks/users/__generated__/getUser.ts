@@ -8,8 +8,8 @@
 // ====================================================
 
 export interface getUser_user {
-  name: string | null;
-  email: string;
+  id: string;
+  auth0_user_id: string;
 }
 
 export interface getUser {
