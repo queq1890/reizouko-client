@@ -12,17 +12,9 @@ const query = gql`
 `;
 
 export const useGetUserById = (id?: string) => {
-  const shouldFetch = id !== undefined;
-
-  const { data, error } = useGraphQLRequest<getUser_user>(
-    query,
-    {
-      auth0_user_id: id,
-    },
-    shouldFetch
-  );
-
-  console.log(shouldFetch);
+  const { data, error } = useGraphQLRequest<getUser_user>(query, {
+    auth0_user_id: id,
+  });
 
   return {
     data,

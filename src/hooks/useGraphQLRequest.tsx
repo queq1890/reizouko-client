@@ -3,9 +3,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import useSWR from 'swr';
 import { graphQLClient } from '../gateway/graphQLClient';
 
-export const useGraphQLRequest = <T, U = undefined>(
+export const useGraphQLRequest = <T,>(
   query: string,
-  variables?: U
+  variables?: Record<string, unknown>
 ) => {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const url = useMemo(() => (isLoading || !isAuthenticated ? null : query), [
