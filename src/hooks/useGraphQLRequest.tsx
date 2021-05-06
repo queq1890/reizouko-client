@@ -1,7 +1,7 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import useSWR from 'swr';
 import { graphQLClient } from '../gateway/graphQLClient';
+import { RequestState, REQUEST_STATE } from '../types/common';
 
 export const useGraphQLRequest = <T, U = undefined>(query: string) => {
   const {
@@ -10,58 +10,37 @@ export const useGraphQLRequest = <T, U = undefined>(query: string) => {
     getAccessTokenSilently,
   } = useAuth0();
 
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<Partial<T>>();
+  const [requestState, setRequestState] = useState<RequestState>(
+    REQUEST_STATE.PENDING
+  );
+  const [data, setData] = useState<T>();
   const [error, setError] = useState<any>(); // TODO: type
 
   const excecuteQuery = useCallback(
-    async (variables?: U) => {
+    async (variables: U extends undefined ? never : U) => {
       if (isAuth0Loading || !isAuthenticated) return;
 
       try {
-        setLoading(true);
+        setRequestState(REQUEST_STATE.LOADING);
         const accessToken = await getAccessTokenSilently();
         const requestHeaders = {
           authorization: `Bearer ${accessToken}`,
         };
 
-        console.log({ variables });
         const result = await graphQLClient.request<T>(
           query,
           variables,
           requestHeaders
         );
         setData(result);
+        setRequestState(REQUEST_STATE.FULFILLED);
       } catch (error) {
         setError(error);
-      } finally {
-        setLoading(false);
+        setRequestState(REQUEST_STATE.FAILED);
       }
     },
     [isAuth0Loading, isAuthenticated, getAccessTokenSilently, query]
   );
 
-  // const url = useMemo(() => (isLoading || !isAuthenticated ? null : query), [
-  //   isLoading,
-  //   isAuthenticated,
-  //   query,
-  // ]);
-  // const fetcher = useCallback(
-  //   async (query: string) => {
-  //     const accessToken = await getAccessTokenSilently();
-  //     const requestHeaders = {
-  //       authorization: `Bearer ${accessToken}`,
-  //     };
-
-  //     const res = await graphQLClient.request<T>(
-  //       query,
-  //       variables,
-  //       requestHeaders
-  //     );
-  //     return res;
-  //   },
-  //   [getAccessTokenSilently, graphQLClient]
-  // );
-
-  return { data, error, excecuteQuery, loading };
+  return { data, error, excecuteQuery, requestState };
 };
