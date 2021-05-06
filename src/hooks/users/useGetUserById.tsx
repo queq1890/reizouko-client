@@ -11,16 +11,16 @@ const query = gql`
   }
 `;
 
-export const useGetUserById = (id?: string) => {
-  const { data, error } = useGraphQLRequest<
+export const useGetUserById = () => {
+  const { data, error, loading, excecuteQuery } = useGraphQLRequest<
     getUser_user,
-    Partial<getUserVariables>
-  >(query, {
-    auth0_user_id: id,
-  });
+    getUserVariables
+  >(query);
 
   return {
     data,
     error,
+    loading,
+    excecuteQuery,
   };
 };
