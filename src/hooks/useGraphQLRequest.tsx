@@ -1,35 +1,46 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import useSWR from 'swr';
 import { graphQLClient } from '../gateway/graphQLClient';
+import { RequestState, REQUEST_STATE } from '../types/common';
 
-export const useGraphQLRequest = <T, U = undefined>(
-  query: string,
-  variables?: U
-) => {
-  const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const url = useMemo(() => (isLoading || !isAuthenticated ? null : query), [
-    isLoading,
+export const useGraphQLRequest = <T, U = undefined>(query: string) => {
+  const {
     isAuthenticated,
-    query,
-  ]);
-  const fetcher = useCallback(
-    async (query: string) => {
-      const accessToken = await getAccessTokenSilently();
-      const requestHeaders = {
-        authorization: `Bearer ${accessToken}`,
-      };
+    isLoading: isAuth0Loading,
+    getAccessTokenSilently,
+  } = useAuth0();
 
-      const res = await graphQLClient.request<T>(
-        query,
-        variables,
-        requestHeaders
-      );
-      return res;
+  const [requestState, setRequestState] = useState<RequestState>(
+    REQUEST_STATE.PENDING
+  );
+  const [data, setData] = useState<T>();
+  const [error, setError] = useState<any>(); // TODO: type
+
+  const executeQuery = useCallback(
+    async (variables: U extends undefined ? never : U) => {
+      if (isAuth0Loading || !isAuthenticated) return;
+
+      try {
+        setRequestState(REQUEST_STATE.LOADING);
+        const accessToken = await getAccessTokenSilently();
+        const requestHeaders = {
+          authorization: `Bearer ${accessToken}`,
+        };
+
+        const result = await graphQLClient.request<T>(
+          query,
+          variables,
+          requestHeaders
+        );
+        setData(result);
+        setRequestState(REQUEST_STATE.FULFILLED);
+      } catch (error) {
+        setError(error);
+        setRequestState(REQUEST_STATE.FULFILLED);
+      }
     },
-    [getAccessTokenSilently, graphQLClient]
+    [isAuth0Loading, isAuthenticated, getAccessTokenSilently, query]
   );
 
-  const { data, error } = useSWR(url, fetcher);
-  return { data, error };
+  return { data, error, executeQuery, requestState };
 };

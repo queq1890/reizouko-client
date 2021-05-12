@@ -4,18 +4,20 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getUser
+// GraphQL mutation operation: createUser
 // ====================================================
 
-export interface getUser_user {
+export interface createUser_createUser {
   id: string;
   auth0UserId: string;
+  name: string;
 }
 
-export interface getUser {
-  user: getUser_user;
+export interface createUser {
+  createUser: createUser_createUser;
 }
 
-export interface getUserVariables {
+export interface createUserVariables {
   auth0UserId: string;
+  name: string;
 }

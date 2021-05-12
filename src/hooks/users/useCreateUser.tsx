@@ -1,20 +1,21 @@
 import { gql } from 'graphql-request';
 import { useGraphQLRequest } from '../useGraphQLRequest';
-import { getUserVariables, getUser } from './__generated__/getUser';
+import { createUser, createUserVariables } from './__generated__/createUser';
 
 const query = gql`
-  query getUser($auth0UserId: String!) {
-    user(auth0UserId: $auth0UserId) {
+  mutation createUser($auth0UserId: String!, $name: String!) {
+    createUser(auth0UserId: $auth0UserId, name: $name) {
       id
       auth0UserId
+      name
     }
   }
 `;
 
-export const useGetUserById = () => {
+export const useCreateUser = () => {
   const { data, error, requestState, executeQuery } = useGraphQLRequest<
-    getUser,
-    getUserVariables
+    createUser,
+    createUserVariables
   >(query);
 
   return {
