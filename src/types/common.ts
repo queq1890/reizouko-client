@@ -1,7 +1,6 @@
-export type RequestState = 'pending' | 'loading' | 'fulfilled' | 'failed';
+export type RequestState = 'pending' | 'loading' | 'fulfilled';
 export const REQUEST_STATE: Record<Uppercase<RequestState>, RequestState> = {
   PENDING: 'pending',
   LOADING: 'loading',
   FULFILLED: 'fulfilled',
-  FAILED: 'failed',
 } as const;

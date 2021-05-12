@@ -16,7 +16,7 @@ export const useGraphQLRequest = <T, U = undefined>(query: string) => {
   const [data, setData] = useState<T>();
   const [error, setError] = useState<any>(); // TODO: type
 
-  const excecuteQuery = useCallback(
+  const executeQuery = useCallback(
     async (variables: U extends undefined ? never : U) => {
       if (isAuth0Loading || !isAuthenticated) return;
 
@@ -36,11 +36,11 @@ export const useGraphQLRequest = <T, U = undefined>(query: string) => {
         setRequestState(REQUEST_STATE.FULFILLED);
       } catch (error) {
         setError(error);
-        setRequestState(REQUEST_STATE.FAILED);
+        setRequestState(REQUEST_STATE.FULFILLED);
       }
     },
     [isAuth0Loading, isAuthenticated, getAccessTokenSilently, query]
   );
 
-  return { data, error, excecuteQuery, requestState };
+  return { data, error, executeQuery, requestState };
 };

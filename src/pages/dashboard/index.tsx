@@ -9,7 +9,7 @@ const Dashboard: NextPage = () => {
 
   return (
     <Layout>
-      <div>signed in as: {currentUser?.auth0_user_id}</div>
+      <div>signed in as: {currentUser?.auth0UserId}</div>
     </Layout>
   );
 };
