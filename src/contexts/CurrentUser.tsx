@@ -2,7 +2,7 @@ import React, { useContext, useState, createContext, ReactNode } from 'react';
 
 type User = {
   id: string;
-  auth0_user_id: string;
+  auth0UserId: string;
 };
 
 export const CurrentUserContext = createContext<User | undefined>(undefined);

@@ -16,7 +16,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (isAuth0Loading || !isAuthenticated) return;
     const id = auth0User?.sub?.replace('auth0|', '');
-    excecuteQuery({ auth0_user_id: id });
+    excecuteQuery({ auth0UserId: id });
   }, [isAuth0Loading, isAuthenticated, auth0User]);
 
   useEffect(() => {

@@ -9,7 +9,7 @@
 
 export interface getUser_user {
   id: string;
-  auth0_user_id: string;
+  auth0UserId: string;
 }
 
 export interface getUser {
@@ -17,5 +17,5 @@ export interface getUser {
 }
 
 export interface getUserVariables {
-  auth0_user_id: string;
+  auth0UserId: string;
 }

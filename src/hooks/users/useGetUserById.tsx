@@ -3,10 +3,10 @@ import { useGraphQLRequest } from '../useGraphQLRequest';
 import { getUserVariables, getUser } from './__generated__/getUser';
 
 const query = gql`
-  query getUser($auth0_user_id: String!) {
-    user(auth0_user_id: $auth0_user_id) {
+  query getUser($auth0UserId: String!) {
+    user(auth0UserId: $auth0UserId) {
       id
-      auth0_user_id
+      auth0UserId
     }
   }
 `;
