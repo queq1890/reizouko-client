@@ -7,6 +7,24 @@ const query = gql`
     user(auth0UserId: $auth0UserId) {
       id
       auth0UserId
+      fridge {
+        id
+        foods {
+          id
+          expirationDate
+          purchaseDate
+          kinds {
+            kind {
+              name
+            }
+          }
+          categories {
+            category {
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;
