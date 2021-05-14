@@ -2,9 +2,8 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Category {
   id: ID!
-  auth0UserId: String!
   name: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -15,10 +14,62 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type CategoryOnFood {
+  id: ID!
+  categoryId: String!
+  foodId: String!
+  category: Category!
+}
+
+type Kind {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type KindOnFood {
+  id: ID!
+  kindId: String!
+  foodId: String!
+  kind: Kind!
+}
+
+type Food {
+  id: ID!
+  fridgeId: String!
+  purchaseDate: DateTime!
+  expirationDate: DateTime
+  status: String!
+  categories: [CategoryOnFood!]!
+  kinds: [KindOnFood!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Fridge {
+  id: ID!
+  userId: String!
+  user: User!
+  foods: [Food!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type User {
+  id: ID!
+  auth0UserId: String!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  fridge: Fridge
+}
+
 type Query {
   user(auth0UserId: String!): User!
 }
 
 type Mutation {
   createUser(auth0UserId: String!, name: String!): User!
+  createFridge(userId: String!): Fridge!
 }
